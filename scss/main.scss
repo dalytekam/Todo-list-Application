@@ -1,0 +1,55 @@
+.titre {
+    color: rgb(236, 222, 184);
+}
+
+.container {
+    box-shadow: 0px 2px 3px; // min-height: 75vh;
+}
+
+hr {
+    background-color: blue;
+}
+
+ul>li {
+    font-size: 1.3rem;
+    position: relative;
+    cursor: default;
+    &:hover {
+        .fa-trash-alt {
+            visibility: visible;
+        }
+        background-color: rgb(15, 15, 15);
+        color: #fff;
+    }
+    .fa-trash-alt {
+        color: #d41616;
+        position: absolute;
+        right: 1rem;
+        cursor: pointer;
+        visibility: hidden;
+        margin-left: 1rem;
+    }
+    .fa-check-circle {
+        margin-right: 1rem;
+        color: green;
+        visibility: hidden;
+    }
+}
+
+.clear {
+    display: inline-block;
+    position: absolute;
+    right: 1rem;
+    bottom: 2rem;
+}
+
+.task-title {
+    position: relative;
+}
+
+.isComplete {
+    .fa-check-circle {
+        visibility: visible;
+        color: #0cec0c;
+    }
+}
