@@ -6,26 +6,52 @@ const taskList = document.querySelector("#taskList");
 const taskForm = document.querySelector("#taskForm");
 //Adding an event listener to the form (submit)
 taskForm.addEventListener("submit", addNewTask);
+
 // Add a new task
+
 function addNewTask(e) {
     e.preventDefault();
     //Get the input value 
-    const task = inputTask.value;
+
+    let task = inputTask.value;
+
     //Check if a task is added
     if (task == "") {
         alert("No Task created !");
     } else {
         const li = document.createElement("li");
         //Add many classes to the created li
-        li.classList.add("list-group-item", "d-flex", "align-items-center");
+        li.classList.add("list-group-item");
         //Set the content of the li 
         li.innerHTML = `<i class="fas fa-check-circle"></i> ${task}
                             <i class="fas fa-trash-alt del"></i>`;
         taskList.appendChild(li);
+
+        // Store the task in local storage
+        storeTheTaskInLocalStorage(task);
         //Clear the input field
         inputTask.value = "";
     }
 }
+
+
+
+
+function storeTheTaskInLocalStorage(task) {
+    let taskCollection;
+    if (localStorage.getItem("tasksInLocalStorage") == null) {
+        taskCollection = [];
+    } else {
+        taskCollection = JSON.parse(localStorage.getItem("tasksInLocalStorage"));
+    }
+    //Add the task in the tasks array
+    taskCollection.push(task);
+    //Put back the array in the local storage
+    localStorage.setItem("tasksInLocalStorage", JSON.stringify(taskCollection));
+
+}
+
+
 // Adding an event listener to the ul
 taskList.addEventListener("click", toggleComplete);
 //toggle class "isComplete" on clicked li
@@ -82,4 +108,26 @@ function filterATask(e) {
         }
     });
 
+}
+
+//Add a loading event on the DOM
+document.addEventListener("DOMContentLoaded", loadTheTasksFromLs);
+// Get the task from local storage
+function loadTheTasksFromLs() {
+    let taskCollection;
+    if (localStorage.getItem("tasksInLocalStorage") == null) {
+        taskCollection = [];
+    } else {
+        taskCollection = JSON.parse(localStorage.getItem("tasksInLocalStorage"));
+    }
+
+    taskCollection.forEach(task => {
+        const li = document.createElement("li");
+        //Add many classes to the created li
+        li.classList.add("list-group-item");
+        //Set the content of the li 
+        li.innerHTML = `<i class="fas fa-check-circle"></i> ${task}
+                            <i class="fas fa-trash-alt del"></i>`;
+        taskList.appendChild(li);
+    });
 }
