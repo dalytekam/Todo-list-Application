@@ -21,7 +21,8 @@ function addNewTask(e) {
     } else {
         const li = document.createElement('li');
         //Add many classes to the created li
-        li.classList.add('list-group-item');
+        li.classList.add('list-group-item', 'd-flex',
+            'align-items-center');
         //Set the content of the li
         li.innerHTML = `<i class="fas fa-check-circle"></i>${task}
                             <i class="fas fa-trash-alt del"></i>`;
