@@ -8,8 +8,8 @@ hr {
   background-color: blue; }
 
 ul > li {
-  word-wrap: break-word;
   font-size: 1.3rem;
+  word-wrap: break-word;
   position: relative;
   cursor: default; }
   ul > li:hover {
@@ -21,6 +21,7 @@ ul > li {
     color: #d41616;
     position: absolute;
     right: 1rem;
+    top: 37%;
     cursor: pointer;
     visibility: hidden;
     margin-left: 1rem; }
