@@ -13,7 +13,10 @@ function addNewTask(e) {
   e.preventDefault();
   //Get the input value
 
-  const task = inputTask.value;
+  const task = {
+    taskName: inputTask.value,
+    taskState: 0
+  };
 
   //Check if a task is added
   if (task == '') {
@@ -23,7 +26,7 @@ function addNewTask(e) {
     //Add many classes to the created li
     li.classList.add('list-group-item', 'justify-content-between', 'align-items-center');
     //Set the content of the li
-    li.innerHTML = `<i class="fas fa-check-circle"></i>${task}
+    li.innerHTML = `<i class="fas fa-check-circle"></i>${task.taskName}
                             <i class="fas fa-trash-alt del"></i>`;
     taskList.appendChild(li);
 
@@ -51,11 +54,28 @@ function storeTheTaskInLocalStorage(task) {
 taskList.addEventListener('click', toggleComplete);
 //toggle class "isComplete" on clicked li
 function toggleComplete(e) {
+  const taskCollection = JSON.parse(localStorage.getItem('tasksInLocalStorage'));
   const clickedTask = e.target;
   if (clickedTask.classList.contains('list-group-item')) {
     clickedTask.classList.toggle('isComplete');
   }
+  if (clickedTask.classList.contains('isComplete')) {
+    taskCollection.forEach(el => {
+      if (el.taskName == clickedTask.textContent.trim()) {
+        el.taskState = 1;
+      }
+    });
+  }
+  if (!clickedTask.classList.contains('isComplete')) {
+    taskCollection.forEach(el => {
+      if (el.taskName == clickedTask.textContent.trim()) {
+        el.taskState = 0;
+      }
+    });
+  }
+  localStorage.setItem('tasksInLocalStorage', JSON.stringify(taskCollection));
 }
+
 //Add the click event on the ul
 taskList.addEventListener('click', deleteTask);
 
@@ -83,7 +103,7 @@ function removeTaskFromLocalStorage(targetTask) {
     taskCollection = JSON.parse(localStorage.getItem('tasksInLocalStorage'));
   }
   taskCollection.forEach((elt, index) => {
-    if (targetTask.textContent.trim() == elt) {
+    if (targetTask.textContent.trim() == elt.taskName) {
       //Delete the target Task in the Array
       taskCollection.splice(index, 1);
     }
@@ -139,8 +159,12 @@ function loadTheTasksFromLs() {
     const li = document.createElement('li');
     //Add many classes to the created li
     li.classList.add('list-group-item', 'justify-content-between', 'align-items-center');
+    //Check the task state
+    if (task.taskState == 1) {
+      li.classList.add('isComplete');
+    }
     //Set the content of the li
-    li.innerHTML = `<i class="fas fa-check-circle"></i> ${task}
+    li.innerHTML = `<i class="fas fa-check-circle"></i> ${task.taskName}
                             <i class="fas fa-trash-alt del"></i>`;
     taskList.appendChild(li);
   });
