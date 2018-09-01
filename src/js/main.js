@@ -14,12 +14,12 @@ function addNewTask(e) {
   //Get the input value
 
   const task = {
-    taskName: inputTask.value,
+    taskName: inputTask.value.trim(),
     taskState: 0
   };
 
   //Check if a task is added
-  if (task == '') {
+  if (task.taskName == '') {
     alert('No Task created !');
   } else {
     const li = document.createElement('li');
